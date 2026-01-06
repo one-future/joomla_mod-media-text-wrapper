@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1.0" client="site" method="upgrade">
+    <name>Media and Text</name>
+    <author>Fabian Berndt</author>
+    <version>1.3.1</version>
+    <description>A simple module to dynamically put a text next to an image or video.</description>
+    <files>
+        <filename>mod_media_text.xml</filename>
+        <filename module="mod_media_text">mod_media_text.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+    <media folder="media" destination="mod_media_text">
+        <folder>css</folder>
+        <folder>js</folder>
+    </media>
+    <config>
+      <fields name="params">
+        <fieldset name="basic">
+          <field
+            name="dropdown"
+            type="list"
+            label="What media should be displayed?"
+            required="true"
+            description="Select whether a video should be embedded from any URL or an image should be displayed">
+            <option value ="0">Image</option>
+            <option value="1">Video</option>
+          </field>
+          <field
+            name="video_type"
+            type="list"
+            label="Choose video source."
+            showon="dropdown:1">
+            <option value="0">Custom</option>
+            <option value="1">Facebook</option>
+            <option value="2">YouTube</option>
+          </field>
+          <field
+              name="video"
+              type="url"
+              showon="dropdown:1"
+              label="Video URL (embed)" />
+          <field
+            name="facebook_width"
+            type="number"
+            min="220"
+            default="500"
+            showon="dropdown:1[AND]video_type:1"
+            label="Max width of embedded video player"/>
+          <field
+            name="facebook_height"
+            type="number"
+            min="220"
+            default="500"
+            showon="dropdown:1[AND]video_type:1"
+            label="Max width of embedded video player"/>
+          <field
+            name="facebook_fullscreen"
+            type="radio"
+            showon="dropdown:1[AND]video_type:1"
+            label="Allow Fullscreen"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="facebook_autoplay"
+            type="radio"
+            showon="dropdown:1[AND]video_type:1"
+            label="Autoplay"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="facebook_text"
+            type="radio"
+            showon="dropdown:1[AND]video_type:1"
+            label="Include text from Facebook post"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="facebook_captions"
+            type="radio"
+            showon="dropdown:1[AND]video_type:1"
+            label="Show captions by default"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="yt_width"
+            type="number"
+            min="0"
+            default="560"
+            showon="dropdown:1[AND]video_type:2"
+            label="Default width of embedded video player"/>
+          <field
+            name="yt_height"
+            type="number"
+            min="0"
+            default="560"
+            showon="dropdown:1[AND]video_type:2"
+            label="Default height of embedded video player"/>
+          <field
+            name="yt_fullscreen"
+            type="radio"
+            showon="dropdown:1[AND]video_type:2"
+            label="Allow Fullscreen"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="yt_autoplay"
+            type="radio"
+            showon="dropdown:1[AND]video_type:2"
+            label="Autoplay"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="yt_accelerometer"
+            type="radio"
+            showon="dropdown:1[AND]video_type:2"
+            label="Allow Accelerometer"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="yt_gyroscope"
+            type="radio"
+            showon="dropdown:1[AND]video_type:2"
+            label="Allow Gyroscope"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="yt_encrypted"
+            type="radio"
+            showon="dropdown:1[AND]video_type:2"
+            label="Allow encrypted media"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="yt_pip"
+            type="radio"
+            showon="dropdown:1[AND]video_type:2"
+            label="Allow picture in picture mode"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Disabled</option>
+            <option value="1">Enabled</option>
+          </field>
+          <field
+            name="image"
+            type="media"
+            showon="dropdown:0"
+            label="Select an image" />
+          <field
+            name="video_width"
+            type="number"
+            label="Paste initial video width"
+            default="16"
+            showon="dropdown:1[AND]video_type:0" />
+          <field
+            name="video_height"
+            type="number"
+            label="Paste initial video height"
+            default="9"
+            showon="dropdown:1[AND]video_type:0" />
+          <field
+            name="text"
+            type="editor"
+            label="Enter text here"
+            filter="raw"
+            buttons="true" />
+          <field
+            name="advanced_settings"
+            type="spacer"
+            label="&lt;b&gt;Advanced Parameters&lt;/b&gt;" />
+          <field
+            name="media_width"
+            type="number"
+            label="Media width (%)"
+            description="Choose the width of the displayed image/video in relation to its parent container. Height is set automatically to match the media's original aspect ratio."
+            min="0"
+            max="100"
+            step="1"
+            default="33"
+            required="true" />
+          <field
+            name="toggle-mobile"
+            type="radio"
+            label="Toggle mobile responsive view"
+            default="0"
+            class="btn-group btn-group-yesno">
+            <option value="0">Off</option>
+            <option value="1">On</option>
+          </field>
+          <field
+            name="mobile-threshold"
+            type="number"
+            label="Mobile view width threshold"
+            default="768"
+            required="true" />
+          <field
+            name="bottom_margin"
+            type="number"
+            label="Bottom Margin (optional)"
+            default="0"
+            min="0"
+            required="true" />
+          <field
+            name="mobile_text"
+            type="editor"
+            label="Enter mobile text"
+            description="This text will be displayed in mobile view. The desktop view (above) will be hidden. Leave empty to ignore."
+            filter="raw"
+            buttons="true"
+            showon="toggle-mobile:1" />
+          </fieldset>
+          <fieldset name="advanced">
+            <field
+              name="module_class"
+              type="text"
+              label="Module class"
+              filter="raw" />
+            <field
+              name="text_class"
+              type="text"
+              label="Text CSS class"
+              filter="raw" />
+          </fieldset>
+        </fields>
+      </config>
+      <updateservers>
+        <server type="collection">localhost/joomla-updates/extension-update-dev.xml</server>
+      </updateservers>
+</extension>
