@@ -14,6 +14,9 @@
         }
     }
 
+    if ($params->get('enable_lazyloading') == 1) {
+        $mediatext_outputBuilder->enableLazyLoading()
+    }
 
     $document = JFactory::getDocument();
     //JHtml::_('jquery.framework');

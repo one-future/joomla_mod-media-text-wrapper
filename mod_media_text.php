@@ -13,6 +13,11 @@
 
     defined('_JEXEC') or die;
 
+    use Joomla/CMS/Factory;
+    use Joomla/CMS/HTML/HTMLHelper;
+
+    HTMLHelper::_('jquery.framework');
+
     require_once dirname(__FILE__) . '/helper.php';
 
     $mediatext_outputBuilder = new OutputBuilder($module->id);

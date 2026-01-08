@@ -19,13 +19,21 @@
     class OutputBuilder
     {
         private $moduleID;
+        private $lazyload = False;
 
         function __construct($id) {
             $this->moduleID = $id;
         }
 
+        function enableLazyLoading() {
+            $this->lazyload = True
+        }
+
         public function buildImageContainer(&$params) {
-            return "<img class=\"lazyload\" data-src=\"" . $params->get('image') . "\">";
+            if ($this->lazyload) {
+                return "<img class=\"lazyload\" data-src=\"" . $params->get('image') . "\">";
+            }
+            return "<img src=\"" . $params->get('image') . "\">"; 
         }
 
         public function buildCustomVideoContainer(&$params) {
@@ -40,8 +48,8 @@
         private function buildFacebookVideoContainer($url, $width, $height, $fullscreen, $autoplay, $text, $captions) {
             return " 
             <div class=\"mediatext-videowrapper-" . $this->moduleID . "\" style=\"padding-top:" . ($height / $width * 100) . "%;\">
-                <iframe class=\"lazyload mediatext-video-" . $this->moduleID . "\" 
-                    data-src=\"" . $url . "\" 
+                <iframe class=\"" . ($this->lazyload ? "lazyload " : "") . "mediatext-video-" . $this->moduleID . "\" "
+                    $this->lazyload ? "data-src=" : "src" . "\" . $url . \" 
                     width=\"" . $width . "\" 
                     height=\"" . $height . "\" 
                     style=\"border:none;overflow:hidden\" 
@@ -59,8 +67,8 @@
 
             return " 
             <div class=\"mediatext-videowrapper-" . $this->moduleID . "\" style=\"padding-top:" . ($height / $width * 100) . "%;\">
-                <iframe class=\"lazyload mediatext-video-" . $this->moduleID . " mediatext_yt-video\"
-                data-src=\"" . $url . "\"
+                <iframe class=\"" . ($this->lazyload ? "lazyload " : "") . "mediatext-video-" . $this->moduleID . " mediatext_yt-video\" "
+                $this->lazyload ? "data-src=" : "src" . "\" . $url . \" 
                 width=\"" . $width . "\" 
                 height=\"" . $height . "\"  
                 frameborder=\"0\" 
