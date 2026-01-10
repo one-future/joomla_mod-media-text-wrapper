@@ -2,7 +2,7 @@
 <extension type="module" version="3.1.0" client="site" method="upgrade">
     <name>Media and Text</name>
     <author>Fabian Berndt</author>
-    <version>1.4.0</version>
+    <version>1.4.0-dev</version>
     <description>A simple module to dynamically put a text next to an image or video.</description>
     <files>
         <filename>mod_media_text.xml</filename>
@@ -11,11 +11,8 @@
         <filename>helper.php</filename>
         <filename>tmpl/default.php</filename>
         <filename>tmpl/index.html</filename>
+        <folder>media</folder>
     </files>
-    <media folder="media" destination="mod_media_text">
-        <folder>css</folder>
-        <folder>js</folder>
-    </media>
     <config>
       <fields name="params">
         <fieldset name="basic">
@@ -54,23 +51,23 @@
             <option value="1">Enabled</option>
           </field>
           <field
-            name="facebook_width"
+            name="width"
             type="number"
             min="220"
             default="500"
-            showon="dropdown:1[AND]video_type:1"
+            showon="dropdown:1"
             label="Max width of embedded video player"/>
           <field
-            name="facebook_height"
+            name="height"
             type="number"
             min="220"
             default="500"
-            showon="dropdown:1[AND]video_type:1"
+            showon="dropdown:1"
             label="Max width of embedded video player"/>
           <field
-            name="facebook_fullscreen"
+            name="enable_fullscreen"
             type="radio"
-            showon="dropdown:1[AND]video_type:1"
+            showon="dropdown:1"
             label="Allow Fullscreen"
             default="0"
             class="btn-group btn-group-yesno">
@@ -78,9 +75,9 @@
             <option value="1">Enabled</option>
           </field>
           <field
-            name="facebook_autoplay"
+            name="enable_autoplay"
             type="radio"
-            showon="dropdown:1[AND]video_type:1"
+            showon="dropdown:1"
             label="Autoplay"
             default="0"
             class="btn-group btn-group-yesno">
@@ -108,43 +105,9 @@
             <option value="1">Enabled</option>
           </field>
           <field
-            name="yt_width"
-            type="number"
-            min="0"
-            default="560"
-            showon="dropdown:1[AND]video_type:2"
-            label="Default width of embedded video player"/>
-          <field
-            name="yt_height"
-            type="number"
-            min="0"
-            default="560"
-            showon="dropdown:1[AND]video_type:2"
-            label="Default height of embedded video player"/>
-          <field
-            name="yt_fullscreen"
+            name="enable_accelerometer"
             type="radio"
-            showon="dropdown:1[AND]video_type:2"
-            label="Allow Fullscreen"
-            default="0"
-            class="btn-group btn-group-yesno">
-            <option value="0">Disabled</option>
-            <option value="1">Enabled</option>
-          </field>
-          <field
-            name="yt_autoplay"
-            type="radio"
-            showon="dropdown:1[AND]video_type:2"
-            label="Autoplay"
-            default="0"
-            class="btn-group btn-group-yesno">
-            <option value="0">Disabled</option>
-            <option value="1">Enabled</option>
-          </field>
-          <field
-            name="yt_accelerometer"
-            type="radio"
-            showon="dropdown:1[AND]video_type:2"
+            showon="dropdown:1"
             label="Allow Accelerometer"
             default="0"
             class="btn-group btn-group-yesno">
@@ -152,9 +115,9 @@
             <option value="1">Enabled</option>
           </field>
           <field
-            name="yt_gyroscope"
+            name="enable_gyroscope"
             type="radio"
-            showon="dropdown:1[AND]video_type:2"
+            showon="dropdown:1"
             label="Allow Gyroscope"
             default="0"
             class="btn-group btn-group-yesno">
@@ -162,9 +125,9 @@
             <option value="1">Enabled</option>
           </field>
           <field
-            name="yt_encrypted"
+            name="enable_encrypted"
             type="radio"
-            showon="dropdown:1[AND]video_type:2"
+            showon="dropdown:1"
             label="Allow encrypted media"
             default="0"
             class="btn-group btn-group-yesno">
@@ -172,9 +135,9 @@
             <option value="1">Enabled</option>
           </field>
           <field
-            name="yt_pip"
+            name="enable_pip"
             type="radio"
-            showon="dropdown:1[AND]video_type:2"
+            showon="dropdown:1"
             label="Allow picture in picture mode"
             default="0"
             class="btn-group btn-group-yesno">
@@ -186,18 +149,6 @@
             type="media"
             showon="dropdown:0"
             label="Select an image" />
-          <field
-            name="video_width"
-            type="number"
-            label="Paste initial video width"
-            default="16"
-            showon="dropdown:1[AND]video_type:0" />
-          <field
-            name="video_height"
-            type="number"
-            label="Paste initial video height"
-            default="9"
-            showon="dropdown:1[AND]video_type:0" />
           <field
             name="text"
             type="editor"
@@ -264,6 +215,6 @@
         </fields>
       </config>
       <updateservers>
-        <server type="collection">localhost/joomla-updates/extension-update-dev.xml</server>
+        <server type="collection">https://raw.githubusercontent.com/one-future/joomla-update-server/refs/heads/main/onefuture-collection.xml</server>
       </updateservers>
 </extension>

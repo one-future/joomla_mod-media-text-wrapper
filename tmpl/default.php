@@ -14,13 +14,8 @@
         }
     }
 
-    if ($params->get('enable_lazyloading') == 1) {
-        $mediatext_outputBuilder->enableLazyLoading()
-    }
-
     $document = JFactory::getDocument();
-    //JHtml::_('jquery.framework');
-    $document->addStyleSheet(JUri::base() . 'media/mod_media_text/css/main.css');
+    $document->addStyleSheet(JUri::base() . '/modules/mod_media_text/media/css/main.css');
 
     $general_style = "
         .mediatext-wrapper-" . $id . " {

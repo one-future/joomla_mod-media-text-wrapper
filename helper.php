@@ -10,23 +10,12 @@
      * other free or open source software licenses.
      */
 
-    class ModMediaTextHelper {
-        public static function getHello(&$params) {
-            return "Hello";
-        }
-    }
-
     class OutputBuilder
     {
         private $moduleID;
-        private $lazyload = False;
 
         function __construct($id) {
             $this->moduleID = $id;
-        }
-
-        function enableLazyLoading() {
-            $this->lazyload = True
         }
 
         public function buildImageContainer(&$params) {
@@ -36,67 +25,47 @@
             return "<img src=\"" . $params->get('image') . "\">"; 
         }
 
-        public function buildCustomVideoContainer(&$params) {
-            $videoheight = $params->get('video_height');
-            $videowidth = $params->get('video_width');
+        private function buildEmbeddedVideoContainer($params) {
+            $doc = new DOMDocument('1.0', 'UTF-8');
+            $width = $params->get('width') ?? 560;
+            $height = $params->get('height') ?? 315;
 
-            return "<div class=\"mediatext-videowrapper-" . $this->moduleID . "\" style=\"padding-top:" . ($videoheight / $videowidth * 100) . "%;\">
-                        <iframe class=\"mediatext-video-" . $this->moduleID . "\" src=\"" . $params->get('video') . "\"></iframe>
-                    </div>";
-        }
+            $allow = '"' . 
+                ($params->get('enable_accelerometer') ? 'accelerometer;' : '') . 
+                ($params->get('enable_autoplay') ? 'autoplay;' : '') . 
+                ($params->get('enable_encrypted') ? 'encrypted-media;' : '') . 
+                ($params->get('enable_gyroscope') ? 'gyroscope;' : '') . 
+                ($params->get('enable_pip') ? 'picture-in-picture;' : '') . '"';
 
-        private function buildFacebookVideoContainer($url, $width, $height, $fullscreen, $autoplay, $text, $captions) {
-            return " 
-            <div class=\"mediatext-videowrapper-" . $this->moduleID . "\" style=\"padding-top:" . ($height / $width * 100) . "%;\">
-                <iframe class=\"" . ($this->lazyload ? "lazyload " : "") . "mediatext-video-" . $this->moduleID . "\" "
-                    $this->lazyload ? "data-src=" : "src" . "\" . $url . \" 
-                    width=\"" . $width . "\" 
-                    height=\"" . $height . "\" 
-                    style=\"border:none;overflow:hidden\" 
-                    scrolling=\"no\" 
-                    frameborder=\"0\" 
-                    allowTransparency=\"true\" 
-                    allow=\"encrypted-media\" 
-                    allowFullScreen=\"" . ($fullscreen == 1 ? "allowfullscreen" : "") . "\">
-                </iframe>
-            </div>
-            ";
-        }
+            $div = $doc->createElement('div');
+            $div->setAttribute('class', 'mediatext-videowrapper-' . $this->moduleID);
+            $div->setAttribute('style', 'padding-top:' . ($height / $width * 100) . '%;');
+            
+            $iframe = $doc->createElement('iframe');
+            $iframe->setAttribute('class', 'mediatext-video-' . $this->moduleID);
+            $iframe->setAttribute('src', $params->get('video'));
+            $iframe->setAttribute('allowfullscreen', $params->get("enable_fullscreen"));
+            $iframe->setAttribute('allow', $allow);
+            $iframe->setAttribute('width', $width);
+            $iframe->setAttribute('height', $height);
+            $iframe->setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            $iframe->setAttribute('frameborder', '0');
+            $iframe->setAttribute('scrolling', 'no');
+            $iframe->setAttribute('style', 'border:none;overflow:hidden');
+            $iframe->setAttribute('loading', $params->get('enable_lazyloading') ? 'lazy' : 'eager');
 
-        private function buildYoutubeVideoContainer($url, $width, $height, $fullscreen, $autoplay, $acc, $gyro, $enc, $pip) {
+            $div->appendChild($iframe);
+            $doc->appendChild($div);
 
-            return " 
-            <div class=\"mediatext-videowrapper-" . $this->moduleID . "\" style=\"padding-top:" . ($height / $width * 100) . "%;\">
-                <iframe class=\"" . ($this->lazyload ? "lazyload " : "") . "mediatext-video-" . $this->moduleID . " mediatext_yt-video\" "
-                $this->lazyload ? "data-src=" : "src" . "\" . $url . \" 
-                width=\"" . $width . "\" 
-                height=\"" . $height . "\"  
-                frameborder=\"0\" 
-                referrerpolicy=\"strict-origin-when-cross-origin\"
-                allow=\"" . ($acc == 1 ? "accelerometer;" : "") . " " . ($autoplay == 1 ? "autoplay;" : "") . " " . ($enc == 1 ? "encrypted-media;" : "") . " " . ($gyro == 1 ? "gyroscope;" : "") . " " . ($pip == 1 ? "picture-in-picture;" : "") . "\" 
-                " . ($fullscreen == 1 ? "allowfullscreen" : "") . ">
-                </iframe>
-            </div>
-            ";
+            return $doc->saveHTML();
         }
 
         public function buildOutput(&$p, $media_type) {
             $htmlstring="";
 
-            if($media_type == "custom_video") {
-                //Custom Video
-                $htmlstring = $this->buildCustomVideoContainer($p);
-                    
-            } elseif ($media_type == "fb_video") { 
-                //Facebook Video
-                $htmlstring = $this->buildFacebookVideoContainer($p->get('video'), $p->get('facebook_width'), $p->get('facebook_height'), $p->get('facebook_fullscreen'), $p->get('facebook_autoplay'), $p->get('facebook_text'), $p->get('facebook_captions'));
-
-            } elseif($media_type == "yt_video") {
-                //Youtube Video
-                $htmlstring = $this->buildYoutubeVideoContainer($p->get('video'), $p->get('yt_width'), $p->get('yt_height'), $p->get('yt_fullscreen'), $p->get('yt_autoplay'), $p->get('yt_accelerometer'), $p->get('yt_gyroscope'), $p->get('yt_encrypted'), $p->get('yt_pip'));
-
+            if($media_type == "custom_video" || $media_type == "fb_video" || $media_type == "yt_video") {
+                $htmlstring = $this->buildEmbeddedVideoContainer($p);
             } elseif ($media_type == "image") {
-                //Image
                 $htmlstring = $this->buildImageContainer($p);
 
             } else {
