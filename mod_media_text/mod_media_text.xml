@@ -215,6 +215,6 @@
         </fields>
       </config>
       <updateservers>
-        <server type="collection">https://raw.githubusercontent.com/one-future/joomla-update-server/refs/heads/main/onefuture-collection.xml</server>
+        <server type="extension">https://raw.githubusercontent.com/one-future/joomla_mod-media-text-wrapper/refs/heads/main/updates.xml</server>
       </updateservers>
 </extension>
