@@ -9,7 +9,7 @@
     <version>1.4.0</version>
     <infourl>https://github.com/one-future/joomla_mod-media-text-wrapper</infourl>
     <downloads>
-      <download type="full" format="zip" sha256="6145b32850e598b0fb0c1dfc91917d12a2fd9c5c8dc314baa533658d4e77fab5">https://github.com/one-future/joomla_mod-media-text-wrapper/releases/download/v1.4.0/mod_media_text-v1.4.0.zip</download>
+      <download type="full" format="zip" sha256="2f38d94829a3f79c26239ee3ba7e3296f1a1f535f397b9b34dc993f6e6e23680">https://github.com/one-future/joomla_mod-media-text-wrapper/releases/download/v1.4.1/mod_media_text-v1.4.0.zip</download>
     </downloads>
     <php_minimum>8.1</php_minimum>
     <maintainer>Fabian Berndt</maintainer>
