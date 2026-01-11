@@ -43,10 +43,7 @@ jobs:
           echo "ZIP_NAME=mod_media_text-v$VERSION.zip" >> $GITHUB_ENV
 
       - name: Zip Joomla module
-        run: |
-          cd mod_media_text
-          zip -r "../$ZIP_NAME" .
-          cd ..
+        run: zip -r "$ZIP_NAME" mod_media_text/* -x "*/.DS_Store"
 
       - name: Generate SHA256 checksum
         run: |

@@ -1,3 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <updates>
+  <update>
+    <name>mod_media_text</name>
+    <description>Simple wrapper module to dynamically put a text next to an image or video.</description>
+    <element>mod_media_text</element>
+    <type>module</type>
+    <client>site</client>
+    <version>1.4.0</version>
+    <infourl>https://github.com/one-future/joomla_mod-media-text-wrapper</infourl>
+    <downloads>
+      <download type="full" format="zip" sha256="6145b32850e598b0fb0c1dfc91917d12a2fd9c5c8dc314baa533658d4e77fab5">https://github.com/one-future/joomla_mod-media-text-wrapper/releases/download/v1.4.0/mod_media_text-v1.4.0.zip</download>
+    </downloads>
+    <php_minimum>8.1</php_minimum>
+    <maintainer>Fabian Berndt</maintainer>
+    <maintainerurl>https://github.com/theEpsilon</maintainerurl>
+    <targetplatform name="joomla" version="((4\..*)|(5\..*)|(6\..*))" />
+  </update>
 </updates>
