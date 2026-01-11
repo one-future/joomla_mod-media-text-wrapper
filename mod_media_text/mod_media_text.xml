@@ -2,8 +2,8 @@
 <extension type="module" version="3.1.0" client="site" method="upgrade">
     <name>Media and Text</name>
     <author>Fabian Berndt</author>
-    <version>1.4.0-dev</version>
-    <description>A simple module to dynamically put a text next to an image or video.</description>
+    <version>1.4.0</version>
+    <description>Simple wrapper module to dynamically put a text next to an image or video.</description>
     <files>
         <filename>mod_media_text.xml</filename>
         <filename module="mod_media_text">mod_media_text.php</filename>
