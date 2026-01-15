@@ -19,9 +19,6 @@
         }
 
         public function buildImageContainer(&$params) {
-            if ($this->lazyload) {
-                return "<img class=\"lazyload\" data-src=\"" . $params->get('image') . "\">";
-            }
             return "<img src=\"" . $params->get('image') . "\">"; 
         }
 
